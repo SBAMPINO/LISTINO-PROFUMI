@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luxury Perfume Collection</title>
+    <!-- Importazione dei font eleganti da Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #0b0b0b;
+            --card-bg: #141414;
+            --accent-gold: #c5a880;
+            --text-main: #ffffff;
+            --text-muted: #a0a0a0;
+            --border-color: #262626;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            padding: 40px 20px;
+            line-height: 1.6;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        header h1 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 2.8rem;
+            font-weight: 300;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--text-main);
+            margin-bottom: 15px;
+        }
+
+        header p {
+            color: var(--accent-gold);
+            font-size: 0.9rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .controls {
+            max-width: 1200px;
+            margin: 0 auto 40px auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .search-bar {
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 15px 20px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 0;
+            color: var(--text-main);
+            font-size: 1rem;
+            letter-spacing: 1px;
+            font-family: 'Montserrat', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .search-bar input:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+        }
+
+        .filters {
+            display: flex;
+            gap: 15px;
+        }
+
+        .filter-btn {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            padding: 10px 25px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-size: 0.8rem;
+            font-family: 'Montserrat', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            border-color: var(--accent-gold);
+            color: var(--text-main);
+            background-color: rgba(197, 168, 128, 0.05);
+        }
+
+        .grid-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .perfume-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .perfume-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-gold);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .code {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--accent-gold);
+            letter-spacing: 1px;
+        }
+
+        .badge {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 4px 8px;
+            border: 1px solid currentColor;
+            font-weight: 600;
+        }
+
+        .badge.uomo { color: #5aa1db; }
+        .badge.donna { color: #db5a9d; }
+        .badge.unisex { color: #9b5adb; }
+
+        .name {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 1.25rem;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            margin-bottom: 25px;
+            color: var(--text-main);
+            min-height: 55px;
+        }
+
+        .price-list {
+            border-top: 1px dashed var(--border-color);
+            padding-top: 15px;
+        }
+
+        .price-item {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+
+        .price-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .size {
+            color: var(--text-muted);
+        }
+
+        .price {
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            color: var(--text-muted);
+            padding: 50px;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 20px 10px; }
+            header h1 { font-size: 2rem; }
+            .filters { flex-wrap: wrap; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Extrait de Parfum</h1>
+        <p>Listino Esclusivo Privato</p>
+    </header>
+
+    <div class="controls">
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Cerca profumo o codice...">
+        </div>
+        <div class="filters">
+            <button class="filter-btn active" onclick="filterGender('all', this)">Tutti</button>
+            <button class="filter-btn" onclick="filterGender('M', this)">Uomo</button>
+            <button class="filter-btn" onclick="filterGender('W', this)">Donna</button>
+            <button class="filter-btn" onclick="filterGender('U', this)">Unisex</button>
+        </div>
+    </div>
+
+    <div class="grid-container" id="perfumeGrid">
+        <!-- I profumi verranno inseriti qui dallo script -->
+    </div>
+
+    <script>
+        const perfumes = [
+            { code: "001M", gender: "M", name: "ONE MILLION - Paco Rabanne", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "002M", gender: "M", name: "ACQUA DI GIO - Giorgio Armani", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "15,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "003M", gender: "M", name: "FAHRENHEIT - Dior", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "15,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "004M", gender: "M", name: "THE ONE MAN - Dolce&Gabbana", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "150M", gender: "M", name: "HUGO MAN - Hugo Boss", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "006W", gender: "W", name: "OPIUM - YSL", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "007W", gender: "W", name: "J'ADORE - Dior", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "010W", gender: "W", name: "ALIEN - Thierry Mugler", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "011W", gender: "W", name: "LIGHT BLUE WOMAN - D&G", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "15,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "012M", gender: "M", name: "EAU SAUVAGE - Dior", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "151W", gender: "W", name: "GUILTY WOMAN - Gucci", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "014W", gender: "W", name: "MANIFESTO - Yves Saint Laurent", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "015M", gender: "M", name: "ROMA - Laura Biagiotti", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "016M", gender: "M", name: "LE MALE - Jean Paul Gaultier", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "152M", gender: "M", name: "GUILTY MAN - Gucci", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "018W", gender: "W", name: "DECLARATION - Cartier", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "019W", gender: "W", name: "LADY MILLION - Paco Rabanne", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "15,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "020M", gender: "M", name: "LA NUIT DE L'HOMME - YSL", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "021M", gender: "M", name: "LIGHT BLUE MAN - D&G", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "022M", gender: "M", name: "TERRE D'HERMES - Hermès", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "023W", gender: "W", name: "HYPNOTIC POISON - Dior", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "024W", gender: "W", name: "CHANEL N°5 - Chanel", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "025W", gender: "W", name: "FOR HER - Narciso Rodriguez", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "026W", gender: "W", name: "FLOWER - Kenzo", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "027W", gender: "W", name: "TRESOR - Lancome", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "028W", gender: "W", name: "ANGEL - Thierry Mugler", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "029W", gender: "W", name: "L'EAU D'ISSEY - Issey Miyake", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "030M", gender: "M", name: "BLACK XS - Paco Rabanne", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "031M", gender: "M", name: "BLV - Bulgari", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "032M", gender: "M", name: "SPICEBOMB - Viktor&Rolf", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "033M", gender: "M", name: "BLACK CODE - Giorgio Armani", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "037M", gender: "M", name: "MAN - Bulgari", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "038M", gender: "M", name: "BLUE - Chanel", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "039W", gender: "W", name: "MISS DIOR CHERIE - Dior", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "153W", gender: "W", name: "CLOE - Cloè", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "042W", gender: "W", name: "LA VIE EST BELLE - Lancome", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "15,00€"}, {size: "70ml", p: "19,00€"}] },
+            { code: "154W", gender: "W", name: "LOVE CLOE - Cloè", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "044U", gender: "U", name: "SILVER MOUNTAIN - Creed", prices: [{size: "15ml", p: "14,90€"}, {size: "30ml", p: "25,50€"}, {size: "70ml", p: "48,00€"}] },
+            { code: "040W", gender: "W", name: "HYPNOSE - Lancome", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "155U", gender: "U", name: "ONE - Calvin Klein", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "047W", gender: "W", name: "CRYSTAL NOIR - Versace", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "048M", gender: "M", name: "ALLURE MAN - Chanel", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "049W", gender: "W", name: "DOLCE - D&G", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "160M", gender: "M", name: "BURBERRY FOR MAN - Burberry", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "051W", gender: "W", name: "COCO MADEMOISELLE - Chanel", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "15,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "052M", gender: "M", name: "PASHA 150 - Cartier", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "053W", gender: "W", name: "NARCISO - Narciso Rodriguez", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "054U", gender: "U", name: "BLACK ORCHID - Tom Ford", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "055W", gender: "W", name: "BLACK OPIUM - YSL", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "056W", gender: "W", name: "ANGE OU DEMON - Givenchy", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "15,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "057W", gender: "W", name: "OMNIA AMETHYSTE - Bulgari", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "061M", gender: "M", name: "INVICTUS - Paco Rabanne", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "062M", gender: "M", name: "INTENSO - Dolce&Gabbana", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "156W", gender: "W", name: "HUGO WOMAN - Hugo Boss", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "064W", gender: "W", name: "OMNIA INDIAN GARNET - Bulgari", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "15,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "157M", gender: "M", name: "THE SCENT - Hugo Boss", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "067W", gender: "W", name: "OLYMPEA - Paco Rabanne", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "068M", gender: "M", name: "AVENTUS - Creed", prices: [{size: "15ml", p: "17,90€"}, {size: "30ml", p: "29,50€"}, {size: "70ml", p: "57,00€"}] },
+            { code: "069M", gender: "M", name: "ACQUA DI SALE - Profumum Roma", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "070W", gender: "W", name: "THE ONE WOMAN - Dolce&Gabbana", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "071W", gender: "W", name: "ALLURE - Chanel", prices: [{size: "15ml", p: "15,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "072U", gender: "U", name: "PATCHOULI - Reminescence", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "073U", gender: "U", name: "HIMALAYA - Creed", prices: [{size: "15ml", p: "14,90€"}, {size: "30ml", p: "25,50€"}, {size: "70ml", p: "48,00€"}] },
+            { code: "074M", gender: "M", name: "BLACK AFGANO - Nasomatto", prices: [{size: "15ml", p: "19,90€"}, {size: "50ml", p: "52,00€"}] },
+            { code: "075M", gender: "M", name: "X FOR MEN - Clive Christian", prices: [{size: "15ml", p: "19,90€"}, {size: "50ml", p: "52,00€"}] },
+            { code: "076W", gender: "W", name: "ACQUA DI GIOIA - Giorgio Armani", prices: [{size: "15ml", p: "11,90€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "158W", gender: "W", name: "FLORA - Gucci", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "079M", gender: "M", name: "MYSELF - YSL", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "080W", gender: "W", name: "SI - Giorgio Armani", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "15,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "081W", gender: "W", name: "CLASSIQUE ESSENCE - JPG", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "15,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "082W", gender: "W", name: "SIGNORINA - Ferragamo", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "15,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "084M", gender: "M", name: "DYLAN BLUE - Versace", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}] },
+            { code: "085W", gender: "W", name: "CHANCE - Chanel", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "15,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "086M", gender: "M", name: "LEGEND - Montblanc", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "15,00€"}] },
+            { code: "087M", gender: "M", name: "WANTED - Azzaro", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "15,00€"}] },
+            { code: "088M", gender: "M", name: "MAN IN BLACK - Bulgari", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "16,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "089W", gender: "W", name: "MON PARIS - YSL", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "090W", gender: "W", name: "POISON GIRL - Dior", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "091M", gender: "M", name: "CHROME - Azzaro", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "160M_Bur", gender: "M", name: "MR. BURBERRY - Burberry", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "093W", gender: "W", name: "AVENTUS FOR HER - Creed", prices: [{size: "15ml", p: "17,90€"}, {size: "30ml", p: "29,50€"}, {size: "70ml", p: "57,00€"}] },
+            { code: "094M", gender: "M", name: "SAUVAGE - Dior", prices: [{size: "15ml", p: "14,90€"}, {size: "30ml", p: "25,50€"}, {size: "70ml", p: "48,00€"}] },
+            { code: "159W", gender: "W", name: "BURBERRY - Burberry", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "096W", gender: "W", name: "GABRIELLE - Chanel", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "097W", gender: "W", name: "AMO - Ferragamo", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "15,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "098W", gender: "W", name: "JOY - Dior", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "13,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "099U", gender: "U", name: "MANDARINO DI AMALFI - Tom Ford", prices: [{size: "15ml", p: "13,90€"}, {size: "30ml", p: "23,50€"}, {size: "70ml", p: "45,00€"}] },
+            { code: "109W", gender: "W", name: "L'OR - J'Adore", prices: [{size: "15ml", p: "19,90€"}, {size: "50ml", p: "52,00€"}] },
+            { code: "100U", gender: "U", name: "WHITE AOUD - Montale", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "101U", gender: "U", name: "VELVET AMBER SKIN - D&G", prices: [{size: "15ml", p: "19,90€"}, {size: "50ml", p: "52,00€"}] },
+            { code: "102U", gender: "U", name: "VELVET AMBER SUN - D&G", prices: [{size: "15ml", p: "19,90€"}, {size: "50ml", p: "52,00€"}] },
+            { code: "105U", gender: "U", name: "INTENSE CAFE' - Montale", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "106U", gender: "U", name: "FUCKING FABULOUS - Tom Ford", prices: [{size: "15ml", p: "19,90€"}, {size: "50ml", p: "52,00€"}] },
+            { code: "110U", gender: "U", name: "KIRKE - Tiziana Terenzi", prices: [{size: "14,90€"}, {size: "30ml", p: "25,50€"}, {size: "70ml", p: "48,00€"}] },
+            { code: "111U", gender: "U", name: "LOST CHERRY - Tom Ford", prices: [{size: "15ml", p: "19,90€"}, {size: "50ml", p: "52,00€"}] },
+            { code: "112U", gender: "U", name: "NEROLI PORTOFINO - Tom Ford", prices: [{size: "15ml", p: "19,90€"}, {size: "50ml", p: "52,00€"}] },
+            { code: "113M", gender: "M", name: "SUR LA ROUTE - Louis Vuitton", prices: [{size: "15ml", p: "17,90€"}, {size: "30ml", p: "29,30€"}, {size: "70ml", p: "57,00€"}] },
+            { code: "114U", gender: "U", name: "OMBRE NOMADE - Louis Vuitton", prices: [{size: "15ml", p: "14,90€"}, {size: "30ml", p: "25,50€"}, {size: "70ml", p: "48,00€"}] },
+            { code: "115W", gender: "W", name: "IDOLE - Lancome", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "15,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "116W", gender: "W", name: "YES I AM - Cacharel", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "15,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "117U", gender: "U", name: "TABACCO VANILLE - Tom Ford", prices: [{size: "15ml", p: "19,90€"}, {size: "50ml", p: "52,00€"}] },
+            { code: "118U", gender: "U", name: "BACCARAT ROUGE 540 - MFK", prices: [{size: "15ml", p: "19,90€"}, {size: "50ml", p: "52,00€"}] },
+            { code: "119W", gender: "W", name: "SCANDAL - Jean Paul Gaultier", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "120W", gender: "W", name: "LA PETIT ROBE NOIR - Guerlain", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "121W", gender: "W", name: "L'INTERDIT - Givenchy", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "10,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "122W", gender: "W", name: "LIBRE - Yves Saint Laurent", prices: [{size: "15ml", p: "14,90€"}, {size: "30ml", p: "25,50€"}, {size: "70ml", p: "48,00€"}] },
+            { code: "123W", gender: "W", name: "GOOD GIRL GONE BAD - Kilian", prices: [{size: "15ml", p: "19,90€"}, {size: "50ml", p: "52,00€"}] },
+            { code: "124U", gender: "U", name: "ZETA - Morph", prices: [{size: "15ml", p: "19,90€"}, {size: "50ml", p: "52,00€"}] },
+            { code: "125U", gender: "U", name: "SOLE DI POSITANO - Tom Ford", prices: [{size: "15ml", p: "19,90€"}, {size: "50ml", p: "52,00€"}] },
+            { code: "126U", gender: "U", name: "SOLEIL BLANC - Tom Ford", prices: [{size: "15ml", p: "19,90€"}, {size: "50ml", p: "52,00€"}] },
+            { code: "127U", gender: "U", name: "OUD WOOD - Tom Ford", prices: [{size: "15ml", p: "19,90€"}, {size: "50ml", p: "52,00€"}] },
+            { code: "128U", gender: "U", name: "VANILLE FATALE - Tom Ford", prices: [{size: "15ml", p: "19,90€"}, {size: "50ml", p: "52,00€"}] },
+            { code: "129U", gender: "U", name: "ERBA PURA - Xerjoff", prices: [{size: "15ml", p: "19,90€"}, {size: "50ml", p: "52,00€"}] },
+            { code: "130U", gender: "U", name: "MEGAMARE - Orto Parisi", prices: [{size: "15ml", p: "22,90€"}, {size: "50ml", p: "65,00€"}] },
+            { code: "131W", gender: "W", name: "GOOD GIRL - Carolina Herrera", prices: [{size: "15ml", p: "14,90€"}, {size: "30ml", p: "25,50€"}, {size: "70ml", p: "45,00€"}] },
+            { code: "132W", gender: "W", name: "MY WAY - Giorgio Armani", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "23,50€"}, {size: "70ml", p: "45,00€"}] },
+            { code: "133W", gender: "W", name: "PARADOXE - Prada", prices: [{size: "15ml", p: "11,90€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "134U", gender: "U", name: "BITTER PEACH - Tom Ford", prices: [{size: "15ml", p: "19,90€"}, {size: "50ml", p: "52,00€"}] },
+            { code: "135U", gender: "U", name: "BOIS D'ARGENT - Dior", prices: [{size: "15ml", p: "17,90€"}, {size: "50ml", p: "29,50€"}, {size: "70ml", p: "57,00€"}] },
+            { code: "136M", gender: "M", name: "HOMME INTENSE - Dior", prices: [{size: "15ml", p: "13,90€"}, {size: "30ml", p: "23,50€"}, {size: "70ml", p: "45,00€"}] },
+            { code: "137U", gender: "U", name: "NAXOS - Xerjoff", prices: [{size: "15ml", p: "19,90€"}, {size: "50ml", p: "52,00€"}] },
+            { code: "138U", gender: "U", name: "WOOD WHISPER - Ojar", prices: [{size: "15ml", p: "19,90€"}, {size: "50ml", p: "52,00€"}] },
+            { code: "139U", gender: "U", name: "LES SABLES ROSES - Louis Vuitton", prices: [{size: "15ml", p: "22,90€"}, {size: "50ml", p: "65,00€"}] },
+            { code: "140M", gender: "M", name: "EROS - Versace", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}] },
+            { code: "141U", gender: "U", name: "THE SPIRIT OF DUBAI - Turath", prices: [{size: "15ml", p: "22,90€"}, {size: "50ml", p: "65,00€"}] },
+            { code: "142U", gender: "U", name: "OMBRE LEATHER - Tom Ford", prices: [{size: "15ml", p: "17,90€"}, {size: "30ml", p: "29,50€"}, {size: "70ml", p: "57,00€"}] },
+            { code: "143U", gender: "U", name: "VANILLA POWDER - Martiere Premier", prices: [{size: "15ml", p: "19,90€"}, {size: "50ml", p: "52,00€"}] },
+            { code: "144U", gender: "U", name: "BIANCO LATTE - Giardini di Toscana", prices: [{size: "15ml", p: "19,90€"}, {size: "50ml", p: "52,00€"}] },
+            { code: "145W", gender: "W", name: "DEVOTION - Dolce&Gabbana", prices: [{size: "15ml", p: "11,90€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "146U", gender: "U", name: "BALMAIN ROUGE - Balmain", prices: [{size: "15ml", p: "19,90€"}, {size: "50ml", p: "32,00€"}] },
+            { code: "147M", gender: "M", name: "BOTTLED ABSOLU - Hugo Boss", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "10,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "148W", gender: "W", name: "GODDESS - Burberry", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "161W", gender: "W", name: "BORN IN ROMA DONNA - Valentino", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "162M", gender: "M", name: "BORN IN ROMA UOMO - Valentino", prices: [{size: "15ml", p: "11,90€"}, {size: "30ml", p: "18,00€"}, {size: "70ml", p: "35,00€"}] },
+            { code: "163W", gender: "W", name: "MIUTINE - Miu Miu", prices: [{size: "15ml", p: "13,90€"}, {size: "30ml", p: "23,50€"}, {size: "70ml", p: "45,00€"}] },
+            { code: "164M", gender: "M", name: "PARADIGME - Prada", prices: [{size: "15ml", p: "13,90€"}, {size: "30ml", p: "23,50€"}, {size: "70ml", p: "45,00€"}] }
+        ];
+
+        let currentGender = 'all';
+
+        function getGenderLabel(g) {
+            if(g === 'M') return 'Uomo';
+            if(g === 'W') return 'Donna';
+            return 'Unisex';
+        }
+
+        function displayPerfumes() {
+            const grid = document.getElementById('perfumeGrid');
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            grid.innerHTML = '';
+
+            const filtered = perfumes.filter(p => {
+                const matchesGender = currentGender === 'all' || p.gender === currentGender;
+                const cleanCode = p.code.replace('_Bur', '').toLowerCase();
+                const matchesSearch = p.name.toLowerCase().includes(searchTerm) || cleanCode.includes(searchTerm);
+                
+                return matchesGender && matchesSearch;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '<div class="no-results">Nessun profumo trovato con i criteri di ricerca.</div>';
+                return;
+            }
+
+            filtered.forEach(p => {
+                const card = document.createElement('div');
+                card.className = 'perfume-card';
+
+                let pricesHtml = '';
+                p.prices.forEach(pr => {
+                    pricesHtml += `
+                        <div class="price-item">
+                            <span class="size">${pr.size}</span>
+                            <span class="price">${pr.p}</span>
+                        </div>
+                    `;
+                });
+
+                const displayCode = p.code.replace('_Bur', '');
+
+                card.innerHTML = `
+                    <div>
+                        <div class="card-header">
+                            <span class="code">${displayCode}</span>
+                            <span class="badge ${getGenderLabel(p.gender).toLowerCase()}">${getGenderLabel(p.gender)}</span>
+                        </div>
+                        <div class="name">${p.name}</div>
+                    </div>
+                    <div class="price-list">
+                        ${pricesHtml}
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filterGender(gender, button) {
+            currentGender = gender;
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            displayPerfumes();
+        }
+
+        document.getElementById('searchInput').addEventListener('input', displayPerfumes);
+
+        // Avvio iniziale
+        displayPerfumes();
+    </script>
+</body>
+</html>
